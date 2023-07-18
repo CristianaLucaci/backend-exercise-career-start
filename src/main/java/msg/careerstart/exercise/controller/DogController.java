@@ -1,8 +1,8 @@
 package msg.careerstart.exercise.controller;
 
 import lombok.NonNull;
-import msg.careerstart.exercise.domain.Dog;
-import msg.careerstart.exercise.dto.DogSimple;
+import msg.careerstart.exercise.dto.DogSimpleDto;
+import msg.careerstart.exercise.mapper.DogTranslatorMapper;
 import msg.careerstart.exercise.service.DogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,14 +12,15 @@ import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/dogs")
 @Validated
-public class DogCtrl {
+@RestController
+public class DogController {
 
     @Autowired
     private DogService dogService;
 
     @GetMapping
-    public ResponseEntity<DogSimple> createDog(@RequestParam @NonNull String name, @RequestParam @NonNull String breed) {
-        DogSimple dogSimple = dogService.createDog(name, breed);
+    public ResponseEntity<DogSimpleDto> createDog(@RequestParam @NonNull String name, @RequestParam @NonNull String breed) {
+        DogSimpleDto dogSimple = dogService.createDog(name, breed);
         return new ResponseEntity<>(dogSimple, HttpStatus.CREATED);
     }
 
@@ -40,17 +41,17 @@ public class DogCtrl {
 //    }
 
     @GetMapping("/{name}")
-    public ResponseEntity<Dog> getDogByName(@PathVariable String name) {
-        Dog dog = dogService.getDogByName(name);
+    public ResponseEntity<DogTranslatorMapper> getDogByName(@PathVariable String name) {
+        DogTranslatorMapper dog = (DogTranslatorMapper) dogService.getDogByName(name);
         return new ResponseEntity<>(dog, HttpStatus.OK);
     }
 
     @PutMapping("/{name}/treats")
-    public ResponseEntity<DogSimple> patch(@PathVariable String name, @RequestParam int treats) {
+    public ResponseEntity<DogSimpleDto> patch(@PathVariable String name, @RequestParam int treats) {
         if (treats < 0 || treats > 10) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        DogSimple dogSimple = dogService.giveDogTreats(name, treats);
+        DogSimpleDto dogSimple = dogService.giveDogTreats(name, treats);
             return new ResponseEntity<>(dogSimple, HttpStatus.OK);
 
     }
