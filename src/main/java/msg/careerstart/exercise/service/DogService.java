@@ -1,17 +1,19 @@
+
 package msg.careerstart.exercise.service;
 
 import msg.careerstart.exercise.domain.Dog;
-import msg.careerstart.exercise.dto.DogSimple;
+import msg.careerstart.exercise.dto.DogSimpleDto;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
-@Service
+
 public interface DogService {
 
-    public DogSimple createDog(String name, String breed);
+    public DogSimpleDto createDog(String name, String breed);
 
-    public Dog getDogByName(String name);
+    public DogSimpleDto getDogByName(String name);
 
-    public DogSimple giveDogTreats(String name, int treats);
+    public DogSimpleDto giveDogTreats(String name, int treats);
 
     public void deleteDogByName(String name);
 }
