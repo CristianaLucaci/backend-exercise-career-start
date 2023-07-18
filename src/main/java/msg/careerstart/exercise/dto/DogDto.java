@@ -8,11 +8,11 @@ import msg.careerstart.exercise.shared.DogBreed;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DogSimple {
+public class DogDto {
 
-    String name;
-    DogBreed breed;
-    Integer treats;
+    private String name;
+    private DogBreed breed;
+    private Integer treats;
 
     /**
      * checks status of class
