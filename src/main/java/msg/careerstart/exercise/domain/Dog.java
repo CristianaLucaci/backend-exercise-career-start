@@ -9,6 +9,7 @@ import javax.persistence.*;
 @Table(name = "dogs")
 @Data
 @Builder
+@Entity
 public class Dog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +21,7 @@ public class Dog {
     @Enumerated(EnumType.STRING)
     private DogBreed breed;
 
-    public Integer treats;
+    private Integer treats;
 
 }
 
