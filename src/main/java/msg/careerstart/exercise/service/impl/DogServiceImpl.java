@@ -1,14 +1,16 @@
-package msg.careerstart.exercise.service;
+package msg.careerstart.exercise.service.impl;
 
 import msg.careerstart.exercise.domain.Dog;
-import msg.careerstart.exercise.dto.DogSimple;
-import msg.careerstart.exercise.mapper.DogTranslator;
+import msg.careerstart.exercise.dto.DogSimpleDto;
+import msg.careerstart.exercise.mapper.DogTranslatorMapper;
 import msg.careerstart.exercise.repository.DogRepository;
+import msg.careerstart.exercise.service.DogService;
 import msg.careerstart.exercise.shared.DogBreed;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 
+@Service
 public class DogServiceImpl implements DogService {
 
     Integer INITIAL_NR_OF_TREATS = 0;
@@ -16,9 +18,9 @@ public class DogServiceImpl implements DogService {
     @Autowired
     private DogRepository dogRepository;
 
-    private final DogTranslator dogMapper = DogTranslator.INSTANCE;
+    private final DogTranslatorMapper dogMapper = DogTranslatorMapper.INSTANCE;
 
-    public DogSimple createDog(String name, String breed) {
+    public DogSimpleDto createDog(String name, String breed) {
         DogBreed dogBreed = DogBreed.valueOf(breed);
         Dog dog = Dog.builder().name(name).breed(dogBreed).treats(INITIAL_NR_OF_TREATS).build();
         return dogMapper.toDTO(dogRepository.save(dog));
@@ -34,7 +36,7 @@ public class DogServiceImpl implements DogService {
     }
 
     @Override
-    public DogSimple giveDogTreats(String name, int treats) {
+    public DogSimpleDto giveDogTreats(String name, int treats) {
         Dog dog = dogRepository.findByName(name);
         if (dog != null) {
             dog.setTreats(treats);
